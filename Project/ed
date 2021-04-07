@@ -256,7 +256,7 @@ country_list_element.addEventListener("click", function(){
 /* input event fires up whenever the value of the input changes */
 input.addEventListener("input", function(){
     let value = input.value.toUpperCase();
-    console.log(value);
+
     country_list.forEach( country => {
         if( country.name.toUpperCase().startsWith(value)){
             document.getElementById(country.name).classList.remove("hide");
