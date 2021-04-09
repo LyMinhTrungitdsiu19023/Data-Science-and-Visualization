@@ -1,1 +1,11 @@
+Overview 
+Our project researched and visualized the infection of Covid pandemic after 1 years. We collect data from the internet through reputable websites. The purpose is to enumerate the number of infected and fatalities in the past 1 year. We will apply Data Visualization to make it easier for users to understand those figures by graphing representation.
+We will visualize the current global scenario of Covid-19 using line charts and bar chars. Then we will visualize how Covid deaths vary with respect to age group and how various pre-existing medical conditions vary with age. Then we will visualize and analyze how various medical conditions contribute to Covid death. We will also compare the performance of the world against Codvid.
+Covid-19 is a dangerous disease spreading all over the world. It is concerned and taken action by all authorities to prevent epidemics, and in it is the department that manages patient information as well as the dead to get the most accurate statistics on the current disease situation. . One of the sites with the most extensive data statistics in the world as well as the prestige used by countries around the world to report regularly is the WHO - the world health organization. Here my team has found data on the number of deaths in the current countries and it has been updated statistics regularly through a github account in excel format. This data clearly shows the number of deaths, infected and other tools caused by pandemic worldwide by day by day.
+Objectives:
+•	To tell stories
+•	To identify areas that need attention 
+•	To find out which nation don’t have good covid prevention measures
+•	To identify how fast does covid spread out
+•	To help people know the dangerous of covid 19
 
