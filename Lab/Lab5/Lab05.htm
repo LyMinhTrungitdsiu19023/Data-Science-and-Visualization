@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: #FFE4C4;
+        }
+    </style>
+    <script type="text/javascript" src="../d3/d3.v3.js"></script>
+    <style type="text/css">
+        #tooltip {
+            position: absolute;
+            width: 200px;
+            height: auto;
+            padding: 10px;
+            background-color: white;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        #tooltip.hidden {
+            display: none;
+        }
+
+        #tooltip p {
+            margin: 0;
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        } 
+
+    </style>
+
+</head>
+
+<body>
+    <div id="tooltip" class="hidden">
+        <p><strong>Important Label Heading</strong></p>
+        <p><span id="value">100</span>%</p>
+    </div>
+
+    <title>Lab 5</title>
+
+    <h1 style="color:blue;">
+        <center>Lab 5 – D3.js - Interaction</center>
+    </h1>
+    <i>
+        <h2>
+            <center>Course: Data science and data visualization.</center>
+        </h2>
+    </i>
+    <h4>Name: Lý Minh Trung</h4>
+    <h4>ID: ITDSIU19023.</h4>
+    <h4>“This is all my own work. I did not copy the code from any other source” <h4>
+
+            <h4>-----------------------------------------------------------------------------------------------</h4>
+            <script src='https://d3js.org/d3.v4.min.js'></script>
+
+            <script>
+                var rowConverter = function (d) {
+                    return {
+                        day: +(d["5/4/20"]),
+                        lat: d.Lat,
+                        long: d.Long,
+                        place: d["Province/State"] + "-" + d["Country/Region"]
+                    }
+                }
+                var w = 1500;
+                var h = 500;
+
+                var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+                // Scatterplot chart 
+                var margin = { top: 60, right: 0, bottom: 90, left: 0 },
+                    w = 700 - margin.left - margin.right,
+                    h = 570 - margin.top - margin.bottom;
+
+                d3.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", rowConverter, function (data) {
+
+                    // X axis set scale
+                    var x = d3.scaleLinear()
+                        .domain([-200, 200])
+                        .range([40, w + 50]);
+
+                    // Y axis set scale
+                    var y = d3.scaleLinear()
+                        .domain([-80, 100])
+                        .range([h, 100]);
+
+
+
+                    // Add dots
+                    svg.append('g')
+                        .selectAll("dot")
+                        .data(data)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", function (d) { return x(d.long); })
+                        .attr("cy", function (d) { return y(d.lat); })
+                        .attr("r", 4)
+                        .attr("fill", function (d) { return "#69a3b2"; })
+                        .attr("fill", function (d) { return "rgb(0, 0, " + d.day + ")"; })
+                        .append("title")
+                        .text(function (d) {
+                            return d.place + ", Case: " + d.day;
+                        })
+                        .on("mouseover", function (d) {
+                            return tooltip.style("visibility", "visible").text(d.place + ", Case: " + d.day);
+                        })
+                        // .on("mousemove", function (d) {
+                        //     return tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px").text(d.day);
+                        // })
+                        .on("mouseout", function (d) {
+                            return tooltip.style("visibility", "hidden");
+                        });
+
+                    var tooltip = d3.select("body")
+                        .append("div")
+                        .style("position", "absolute")
+                        .style("font-family", "sans-serif")
+                        .style("font-size", "10px")
+                        .style("z-index", "10")
+                        .style("visibility", "hidden");
+
+
+
+                    // X AXIS - location & label
+                    svg.append("g")
+                        .attr("transform", "translate(0," + h + ")")
+                        .call(d3.axisBottom(x).ticks(20))
+                    svg.append("text")
+                        .attr("class", "x label")
+                        .attr("text-anchor", "end")
+                        .attr("x", w + 150)
+                        .attr("y", h + 10)
+                        .text("Longitude")
+                        .style('fill', 'BLACK');
+
+                    // Y AXIS - location & label
+                    svg.append("g")
+                        .call(d3.axisLeft(y).ticks(20))
+                        .attr("transform", "translate(" + (w - 660) + ", 0)")
+
+                    svg.append("text")
+                        .attr("class", "y label")
+                        .attr("text-anchor", "end")
+                        .attr("x", w - 600)
+                        .attr("y", h - 350)
+                        .text("Latitude")
+                        .style('fill', 'BLACK')
+                    
+                    
+                    
+                    
+                })
+
+            
+
+
+
+
+            </script>
+
+
+</body>
+
+</html>
