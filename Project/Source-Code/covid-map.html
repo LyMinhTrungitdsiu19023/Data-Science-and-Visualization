@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/w3-colors-metro.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    <link href="css/tabulator_midnight.min.css" rel="stylesheet">
+    <link href="css/customcss.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="covid-map.css">
+    <title>COVID-19 Dashboard</title>
+</head>
+
+
+<body class="bg-dashboard">
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse sidebar-custom w3-animate-left" id="dashSidebar">
+        <div class="w3-container w3-margin-top">
+            <h5 class="dashboardTitle">TATT STATISTICS</h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+                onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i> Close Menu</a>
+            <a href="covid-map.html" class="w3-bar-item w3-button w3-padding w3-hover-teal"><i
+                    class="fas fa-globe-europe"></i> World Maps</a>
+            <a href="index.html" class="w3-bar-item w3-button w3-padding w3-hover-amber"><i class="fas fa-pills"></i>
+                Line Chart</a>
+
+            <a href="covidvaccinations.html" class="w3-bar-item w3-button w3-padding w3-hover-green"><i
+                    class="fas fa-flag"></i> Asian</a>
+            <a href="covidchartsdata.html" class="w3-bar-item w3-button w3-padding w3-hover-light-green"><i
+                    class="fas fa-flag"></i> Europe</a>
+            <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i
+                    class="fas fa-flag"></i> North America</a>
+            <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i
+                    class="fas fa-flag"></i> South America</a>
+            <a href="covidnews.html" class="w3-bar-item w3-button w3-padding w3-hover-cyan"><i class="fas fa-flag"></i>
+                Africa</a>
+            <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i
+                    class="fas fa-flag"></i> Oceania</a>
+            <a href="about.html" class="w3-bar-item w3-button w3-padding w3-hover-red"><i
+                    class="fas fa-info-circle"></i>
+                Author</a>
+        </div>
+    </nav>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main main-custom">
+        <h3></br> </br>
+            <center> COVID WORLD MAP </center></br>
+        </h3>
+        <div class="myMap">
+            <div class="map"></div>
+            <div class="areaLegend col-4"></div>
+            <div class="plotLegend"></div>
+            <div class="footer-container">
+                <div class="copyright">
+                    
+                    <p>@International University - VNU HCMC,</br> School of Computer Science and Engeering</p>
+                    <p> </br>Data may be incomplete for the current day or week,  Data from World Health Organization </p>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-mousewheel@3.1.13/jquery.mousewheel.min.js"></script>
+    <script src="asset/mapael/jquery.mapael.js"></script>
+    <script src="asset/mapael/maps/world_countries.min.js"></script>
+    <script src="dataset-t.js"></script>
+
+
+
+
+
+    <script>
+        $.get("https://corona.lmao.ninja/v2/countries").then(function (countriesResp) {
+            const data = countriesResp;
+
+            var tablee = []
+            $.each(data, function (index) {
+                tablee[index] = {}
+                tablee[index]["code"] = data[index].countryInfo.iso2;
+                tablee[index]["name"] = data[index].country;
+                tablee[index]["cases"] = data[index].cases;
+                tablee[index]["deaths"] = data[index].deaths;
+                tablee[index]["recoveries"] = data[index].recovered;
+            })
+            var ob = procces(tablee);
+            myMap(ob);
+        });
+
+        function myMap(data) {
+            var mymap = $(".myMap").mapael({
+                map: {
+                    name: "world_countries",
+                    defaultArea: {
+                        attrs: {
+                            stroke: "#fff",
+                            "stroke-width": 1
+                        }
+                    }
+                },
+                legend: {
+                    area: {
+                        display: true,
+                        title: "Territory of total confirmed cases",
+                        slices: data.case_legendAreaColors
+                    },
+                    plot: {
+                        display: true,
+                        title: "Region of total confirmed cases",
+                        slices: data.case_legendPlotColors
+                    }
+                },
+                plots: data.case_cityPlots,
+                areas: data.case_countryAreas
+            });
+            return mymap;
+        };
+    </script>
+
+</body>
+
+</html>

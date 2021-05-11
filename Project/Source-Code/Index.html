@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/w3.css">
+  <link rel="stylesheet" href="css/w3-colors-metro.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  <link href="css/tabulator_midnight.min.css" rel="stylesheet">
+  <link href="css/customcss.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="covid-map.css">
+  <title>COVID-19 Dashboard</title>
+</head>
+
+<body class="bg-dashboard">
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse sidebar-custom w3-animate-left" id="dashSidebar">
+    <div class="w3-container w3-margin-top">
+      <h5 class="dashboardTitle">TATT STATISTICS</h5>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+        onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i> Close Menu</a>
+      <a href="covid-map.html" class="w3-bar-item w3-button w3-padding w3-hover-teal"><i
+          class="fas fa-globe-europe"></i> World Maps</a>
+      <a href="Index.html" class="w3-bar-item w3-button w3-padding w3-hover-amber"><i class="fas fa-pills"></i> Line
+        Chart</a>
+      <a href="covidvaccinations.html" class="w3-bar-item w3-button w3-padding w3-hover-green"><i
+          class="fas fa-flag"></i> Asian</a>
+      <a href="covidchartsdata.html" class="w3-bar-item w3-button w3-padding w3-hover-light-green"><i
+          class="fas fa-flag"></i> Europe</a>
+      <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i class="fas fa-flag"></i>
+        North America</a>
+      <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i class="fas fa-flag"></i>
+        South America</a>
+      <a href="covidnews.html" class="w3-bar-item w3-button w3-padding w3-hover-cyan"><i class="fas fa-flag"></i>
+        Africa</a>
+      <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i class="fas fa-flag"></i>
+        Oceania</a>
+      <a href="about.html" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fas fa-info-circle"></i>
+        Author</a>
+
+      <!-- <a href="covidvaccinations.html" class="w3-bar-item w3-button w3-padding w3-hover-green"><i
+          class="fas fa-syringe"></i> Data Vaccinations</a>
+      <a href="covidchartsdata.html" class="w3-bar-item w3-button w3-padding w3-hover-light-green"><i
+          class="fas fa-chart-bar"></i> Data Charts</a>
+      <a href="covidfrance.html" class="w3-bar-item w3-button w3-padding w3-hover-blue"><i class="fas fa-flag"></i> Data
+        France</a>
+      <a href="covidnews.html" class="w3-bar-item w3-button w3-padding w3-hover-cyan"><i class="fas fa-newspaper"></i>
+        News about Covid</a>
+      <a href="about.html" class="w3-bar-item w3-button w3-padding w3-hover-red"><i class="fas fa-info-circle"></i>
+        About</a> -->
+    </div>
+  </nav>
+
+
+  <div class="w3-main main-custom">
+
+    <h3>
+      <center> </br>COVID Line Chart </center>
+    </h3>
+    <div class="country">
+
+      <div class="change-country">Click here to search country by name...</div>
+      <div class="search-country hide">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Loading Country..." />
+          <img class="close" src="./img/close.svg" alt="" />
+        </div>
+        <div class="country-list"></div>
+      </div>
+
+    </div>
+
+    <div class="stats">
+      <div class="latest-report">
+
+        <div class="total-cases">
+          <div class="title">Total Cases</div>
+          <div class="value">0</div>
+          <div class="new-value">+0</div>
+        </div>
+        <div class="recovered">
+          <div class="title">Recovered</div>
+          <div class="value">0</div>
+          <div class="new-value">+0</div>
+        </div>
+        <div class="deaths">
+          <div class="title">Deaths</div>
+          <div class="value">0</div>
+          <div class="new-value">+0</div>
+        </div>
+        <div class="country">
+          <div class="title">Country Name</div>
+          <div class="name">Loading Change...</div>
+        </div>
+      </div>
+      <div class="chart">
+        <canvas id="axes_line_chart"></canvas>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="copyright">
+          <p>@International University - VNU HCMC,</br> School of Computer Science and Engeering</p>
+          <p> </br>Data may be incomplete for the current day or week,  Data from World Health Organization </p>
+
+        </div>
+
+
+      </div>
+  </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+  <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/app.js"></script>
+
+
+</body>
+
+</html>
