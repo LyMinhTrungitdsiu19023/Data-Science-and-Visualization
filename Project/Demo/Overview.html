@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>COVID-19 Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/w3-colors-metro.css">
+<link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+<link href="css/tabulator_midnight.min.css" rel="stylesheet">
+<link href="css/customcss.css" rel="stylesheet">
+
+<body class="bg-dashboard">
+    <nav class="w3-sidebar w3-collapse sidebar-custom w3-animate-left" id="dashSidebar">
+        <div class="w3-container w3-margin-top">
+            <h4 class="dashboardTitle">
+                <font size="+1.5">TATT STATISTICS</font>
+            </h4>
+        </div>
+        <div class="w3-bar-block">
+            <a href="Overview.html" class="w3-bar-item w3-button w3-padding w3-hover-amber"><i class="fas fa-pills"></i>
+                Data
+                Overview</a>
+            <a href="covid-map.html" class="w3-bar-item w3-button w3-padding w3-hover-teal"><i
+                    class="fas fa-globe-europe"></i> World Maps</a>
+            <a href="Index.html" class="w3-bar-item w3-button w3-padding w3-hover-amber"><i class="fas fa-pills"></i>
+                Line
+                Chart</a>
+        </div>
+    </nav>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main main-custom">
+
+        <div class="w3-row-padding w3-margin-bottom">
+            <h1 style="color:blue;">
+                <center>
+                    <font size="+2">COVID-19 DATA OVERVIEW</font>
+                </center>
+            </h1>
+
+            <div class="w3-quarter">
+                <div class="w3-container w3-padding-16 dark-element">
+                    <h4 class="w3-large">Curently Active</h4>
+                    <div class="w3-left"><i class="fas fa-hospital w3-xxxlarge "></i></div>
+
+                    <div class="w3-right">
+                        <h3 class="w3-xlarge w3-text-blue" id="active"></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-padding-16 dark-element">
+                    <h4 class="w3-large">Total Confirmed</h4>
+                    <div class="w3-left"><i class="fas fa-file-medical w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3 class="w3-xlarge w3-text-amber" id="confirmed"></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-padding-16 dark-element">
+                    <h4 class="w3-large">Total Recovered</h4>
+                    <div class="w3-left"><i class="fas fa-heartbeat w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3 class="w3-xlarge w3-text-light-green" id="recovered"></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-padding-16 dark-element">
+                    <h4 class="w3-large">Total Deaths</h4>
+                    <div class="w3-left"><i class="fas fa-bed w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3 class="w3-xlarge w3-text-red" id="deaths"></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-panel">
+            <div class="w3-container" style="margin:0 -16px">
+                <div class="w3-row w3-padding-16 ">
+                    <div id="covTable" class="w3-col"></div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-container">
+                <div class="copyright">
+                    <p>@International University - VNU HCMC,</br> School of Computer Science and Engeering</p>
+                    <p> </br>Data may be incomplete for the current day or week, Data from World Health Organization
+                    </p>
+
+                </div>
+
+
+            </div>
+    </div>
+    </footer>
+    <!-- End page content -->
+    </div>
+
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="js/tabulator.min.js"></script>
+    <script src="js/jspdf.min.js"></script>
+    <script src="js/autotable.js"></script>
+    <script src="js/xlsx.full.min.js"></script>
+    <script src="js/maintabulator.min.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script>
+        var worldCovid = 'https://disease.sh/v3/covid-19/all';
+        $.getJSON(worldCovid, function (worldjson) {
+            let noData = 'Not Available ...';
+            let latestUpdate = moment(worldjson.updated).format('MMMM Do YYYY - h:mm a');
+            let active = worldjson.active;
+            let cases = worldjson.cases;
+            let recovered = worldjson.recovered;
+            let deaths = worldjson.deaths;
+            if (latestUpdate == null) { $('#latestUpdate').html(noData) } else { $('#latestUpdate').html(latestUpdate) }
+            if (active == null) { $('#active').html(noData) } else { $('#active').html(active.toLocaleString()) }
+            if (cases == null) { $('#confirmed').html(noData) } else { $('#confirmed').html(cases.toLocaleString()) }
+            if (recovered == null) { $('#recovered').html(noData) } else { $('#recovered').html(recovered.toLocaleString()) }
+            if (deaths == null) { $('#deaths').html(noData) } else { $('#deaths').html(deaths.toLocaleString()) }
+        });
+    </script>
+
+    <script>
+        $.getJSON(covApi, function (json) {
+            $('#filterField').empty();
+            $('#filterField').append($('<option disabled selected>').text("Select Country or Other"));
+            $.each(json, function (i, obj) {
+                $('#filterField').append($('<option>').text(obj.country).attr('value', obj.countryInfo.iso2));
+            });
+        });
+        $("#filterField").change(function () {
+            covTable.setFilter("countryInfo.iso2", "like", $(this).val());
+        });
+        // Clear filters on click
+        $("#filter-clear").click(function () {
+            $("#filterField").val("");
+            covTable.clearFilter();
+            covTable.clearHeaderFilter();
+        });
+
+        window.addEventListener('resize', function () {
+            covTable.redraw(true);
+        });
+
+        $("#pdfDownload").click(function () {
+            covTable.downloadToTab("pdf", "CovidData.pdf", {
+                orientation: "landscape",
+                autoTable: function (doc) {
+                    doc.text("CovidData Report", 5, 15);
+                    //return the autoTable config options object
+                    return {
+                        theme: 'striped',
+                        tableWidth: 'auto',
+                        pageBreak: 'auto',
+                        rowPageBreak: 'auto',
+                        styles: {
+                            cellPadding: 0.5,
+                            fontSize: 8,
+                        },
+                        headStyles: {
+                            fillColor: [26, 26, 26],
+                        },
+                        footStyles: {
+                            fillColor: [26, 26, 26],
+                        },
+                        bodyStyles: {
+                            fillColor: [102, 102, 102],
+                            textColor: 255,
+                        },
+                        alternateRowStyles: {
+                            fillColor: [68, 68, 68],
+                        },
+                        margin: { top: 20, bottom: 20, left: 10, right: 10 },
+                    };
+                },
+            });
+        });
+        $("#xlsxDownload").click(function () {
+            covTable.download("xlsx", "CovidData.xlsx", { sheetName: "Covid-19 Data" });
+        });
+    </script>
+
+</body>
+
+</html>
